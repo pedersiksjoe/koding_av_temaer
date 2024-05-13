@@ -128,15 +128,3 @@ dataframe_all = pd.DataFrame(data=Data)
 
 # Display the combined DataFrame
 dataframe_all
-
-"""from bs4 import BeautifulSoup
-html = f'søketreff_sex.html'
-with open(html, 'r', encoding='utf-8') as fp:
-    soup = BeautifulSoup(fp, 'html.parser', from_encoding=('utf-8'))
-    soup_list = soup.find_all('div', class_= "sc-jmGrKw bbfLNY")
-    for div in soup_list:
-        span = div.find_all('span')
-        for span2 in span:
-            print(span2.find)
-        print("____")
-    #liststring_type_for_page = soup.find_all('aside')"""

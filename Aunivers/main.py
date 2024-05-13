@@ -10,6 +10,18 @@ kategorier_dictionary_sex = {
     "trinn9": 5,
     "trinn10": 4,
     "aaret_rundt": 3,
+    "engelsk":1,
+    "fransk": 0,
+    "krle":1,
+    "kroppsoving": 0,
+    "kunst_og_handverk": 0,
+    "mat_og_helse":0,
+    "musikk":0,
+    "matte": 0,
+    "naturfag":3,
+    "norsk":2,
+    "spansk":0,
+    "tysk":0
 }
 
 # Dictionary mapping categories to their respective IDs for the 'Sexuality' topic
@@ -20,6 +32,19 @@ kategorier_dictionary_seksualitet = {
     "trinn9": 4,
     "trinn10": 3,
     "aaret_rundt": 2,
+    "engelsk":1,
+    "fransk": 0,
+    "krle":1,
+    "kroppsoving": 0,
+    "kunst_og_handverk": 0,
+    "mat_og_helse":0,
+    "matte": 1,
+    "musikk":1,
+    "naturfag":2,
+    "norsk":1,
+    "spansk":0,
+    "tysk":0
+
 }
 
 # Dictionary mapping categories to their respective IDs for the 'Boundaries' topic
@@ -30,6 +55,19 @@ kategorier_dictionary_grenser = {
     "trinn9": 5,
     "trinn10": 4,
     "aaret_rundt": 3,
+    "engelsk":1,
+    "fransk": 1,
+    "krle":1,
+    "kroppsoving": 0,
+    "kunst_og_handverk": 1,
+    "mat_og_helse":1,
+    "musikk":1,
+    "matte": 1,
+    "naturfag":1,
+    "norsk":3,
+    "spansk":1,
+    "tysk":1
+
 }
 
 # Dictionary mapping categories to their respective IDs for the 'Emotions' topic
@@ -40,6 +78,19 @@ kategorier_dictionary_følelser = {
     "trinn9": 23,
     "trinn10": 22,
     "aaret_rundt": 7,
+    "engelsk":5,
+    "fransk": 1,
+    "krle":2,
+    "kroppsoving": 1,
+    "kunst_og_handverk": 1,
+    "mat_og_helse":1,
+    "musikk":1,
+    "matte": 2,
+    "naturfag":2,
+    "norsk":13,
+    "spansk":1,
+    "tysk":1
+
 }
 
 # Dictionary mapping categories to their respective IDs for the 'Puberty' topic
@@ -50,6 +101,19 @@ kategorier_dictionary_pubertet = {
     "trinn9": 1,
     "trinn10": 1,
     "aaret_rundt": 1,
+    "engelsk":0,
+    "fransk": 0,
+    "krle":0,
+    "kroppsoving": 0,
+    "kunst_og_handverk": 0,
+    "mat_og_helse":0,
+    "musikk":0,
+    "matte": 0,
+    "naturfag":0,
+    "norsk":0,
+    "spansk":0,
+    "tysk":0
+
 }
 
 # Dictionary mapping categories to their respective IDs for the 'Sexual Health' topic
@@ -60,6 +124,19 @@ kategorier_dictionary_seksuell_helse = {
     "trinn9": 0,
     "trinn10": 3,
     "aaret_rundt": 0,
+    "engelsk":0,
+    "fransk": 0,
+    "krle":0,
+    "kroppsoving": 0,
+    "kunst_og_handverk": 0,
+    "mat_og_helse":0,
+    "musikk":0,
+    "matte": 0,
+    "naturfag":1,
+    "norsk":0,
+    "spansk":0,
+    "tysk":0
+
 }
 
 # A list containing all the category dictionaries for different topics
@@ -78,9 +155,11 @@ sokeord_list = ["sex", "seksualitet", "følelser", "grenser", "pubertet", "seksu
 
 # List of categories in a readable format
 kategorier_alle_riktig = ["all", "Samfunnsfag", "8.trinn", "9.trinn", "10.trinn", "Året rundt"]
+kategorier_alle_med_alt = ["all", "Samfunnsfag", "8.trinn", "9.trinn", "10.trinn", "Året rundt","engelsk","fransk","krle","kroppsoving","kunst_og_handverk","mat_og_helse","musikk","matte","naturfag","norsk","spansk","tysk"]
 
 # List of categories related to subjects
 kategorier_fag = ["aaret_rundt", "samfunnsfag"]
+kategorier_alle_fag = ["aaret_rundt", "samfunnsfag","engelsk","fransk","krle","kroppsoving","kunst_og_handverk","mat_og_helse","musikk","matte","naturfag","norsk","spansk","tysk"]
 
 # List of categories related to grades
 kategorier_trinn = ["trinn8", "trinn9", "trinn10"]
@@ -162,6 +241,7 @@ def dataframe_sok(sokeord, kategorier_dictionary):
     # Collect search results for each category
     soketreff = [dataframe_kategori(sokeord, kategorier_alle[i], kategorier_antall[i]) for i in range(len(kategorier_antall))]
 
+
     # Initialize lists to store data
     fag, trinn = [], []
     title_in_search, type_in_search, url_in_search, sokeord_in_search, url_in_search_fag, url_in_search_trinn, url_in_search_full = [], [], [], [], [], [], []
@@ -169,9 +249,12 @@ def dataframe_sok(sokeord, kategorier_dictionary):
     # Define categories related to subjects and grades
     kategorier_trinn = ["trinn8", "trinn9", "trinn10"]
     kategorier_fag = ["aaret_rundt", "samfunnsfag"]
+    kategorier_resten_av_fag = ["engelsk", "fransk", "krle", "kroppsoving",
+                           "kunst_og_handverk", "mat_og_helse", "musikk", "matte", "naturfag", "norsk", "spansk",
+                           "tysk"]
 
     # Initialize lists to store index of categories related to subjects and grades
-    index_in_trinn, index_in_fag = [], []
+    index_in_trinn, index_in_fag, index_in_resten_av_fag = [], [], []
 
     # Find the index of categories related to subjects and grades
     for i in range(len(kategorier_alle)):
@@ -179,6 +262,8 @@ def dataframe_sok(sokeord, kategorier_dictionary):
             index_in_trinn.append(i)
         if kategorier_alle[i] in kategorier_fag:
             index_in_fag.append(i)
+        if kategorier_alle[i] in kategorier_resten_av_fag:
+            index_in_resten_av_fag.append(i)
 
     # Collect URLs from categories related to grades and subjects
     for i in index_in_trinn:
@@ -187,6 +272,12 @@ def dataframe_sok(sokeord, kategorier_dictionary):
             if url not in url_in_search_trinn:
                 url_in_search_trinn.append(url)
     for i in index_in_fag:
+        df_temp = soketreff[i]
+        for url in list(df_temp['url']):
+            if url not in url_in_search_fag:
+                url_in_search_fag.append(str(url))
+
+    for i in index_in_resten_av_fag:
         df_temp = soketreff[i]
         for url in list(df_temp['url']):
             if url not in url_in_search_fag:
@@ -214,6 +305,11 @@ def dataframe_sok(sokeord, kategorier_dictionary):
                 if url_temp == url_in_search[y]:
                     trinn[y].append(soketreff[i].loc[i, "kategori"])
         for i in index_in_fag:
+            for j in range(len(list(soketreff[i]['url']))):
+                url_temp = soketreff[i].loc[j, "url"]
+                if url_temp == url_in_search[y]:
+                    fag[y].append(soketreff[i].loc[j, "kategori"])
+        for i in index_in_resten_av_fag:
             for j in range(len(list(soketreff[i]['url']))):
                 url_temp = soketreff[i].loc[j, "url"]
                 if url_temp == url_in_search[y]:
